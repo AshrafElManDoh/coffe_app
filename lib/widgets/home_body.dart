@@ -1,8 +1,28 @@
+import 'package:coffe_app/models/drink_model.dart';
 import 'package:coffe_app/widgets/drink_item.dart';
 import 'package:flutter/material.dart';
 
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
+
+  @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
+  late ScrollController scrollController;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +30,29 @@ class HomeBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Column(
         children: [
-          DrinkItem(),
+          Expanded(
+            child: ListView.separated(
+              controller: scrollController,
+              itemBuilder: (context, index) {
+                return AnimatedBuilder(
+                  animation: scrollController,
+                  builder: (context, child) {
+                    double offset = 0;
+                    if (scrollController.hasClients) {
+                      offset = scrollController.offset / 100 - index;
+                    }
+                    offset = offset.clamp(0, 2);
+                    return Transform.scale(
+                      scale: 1 - (offset * .07),
+                      child: DrinkItem(drinkModel: DrinkModel.drinks[index]),
+                    );
+                  },
+                );
+              },
+              separatorBuilder: (context, index) => SizedBox(height: 16),
+              itemCount: DrinkModel.drinks.length,
+            ),
+          ),
         ],
       ),
     );

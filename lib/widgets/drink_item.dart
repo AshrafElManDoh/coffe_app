@@ -1,7 +1,10 @@
+import 'package:coffe_app/models/drink_model.dart';
 import 'package:flutter/material.dart';
 
 class DrinkItem extends StatelessWidget {
-  const DrinkItem({super.key});
+  const DrinkItem({super.key, required this.drinkModel});
+
+  final DrinkModel drinkModel ;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class DrinkItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Image.asset("assets/drinks/Chocolate.png", fit: BoxFit.contain),
+              Image.asset(drinkModel.image, fit: BoxFit.contain),
             ],
           ),
         ),
@@ -53,10 +56,10 @@ class DrinkItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Chocolate",
+                drinkModel.name,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              Text("A fresh juice", style: TextStyle(fontSize: 14)),
+              Text(drinkModel.title, style: TextStyle(fontSize: 14)),
             ],
           ),
         ),
