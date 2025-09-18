@@ -1,4 +1,5 @@
 import 'package:coffe_app/models/drink_model.dart';
+import 'package:coffe_app/views/drink_details_view.dart';
 import 'package:coffe_app/widgets/drink_item.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,18 @@ class _HomeBodyState extends State<HomeBody> {
                     offset = offset.clamp(0, 2);
                     return Transform.scale(
                       scale: 1 - (offset * .07),
-                      child: DrinkItem(drinkModel: DrinkModel.drinks[index]),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (c) =>
+                                  DrinkDetailsView(itemIndex: index),
+                            ),
+                          );
+                        },
+                        child: DrinkItem(drinkModel: DrinkModel.drinks[index]),
+                      ),
                     );
                   },
                 );
